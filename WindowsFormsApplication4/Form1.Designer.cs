@@ -30,6 +30,7 @@
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.label1 = new System.Windows.Forms.Label();
             this.loginButton = new System.Windows.Forms.Button();
             this.mainTitleLabel = new System.Windows.Forms.Label();
             this.passwordTextbox = new System.Windows.Forms.TextBox();
@@ -41,7 +42,8 @@
             this.addRoomButton = new System.Windows.Forms.Button();
             this.roomsLabel = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.label1 = new System.Windows.Forms.Label();
+            this.bookRoomButton = new System.Windows.Forms.Button();
+            this.searchRoomsComboBox = new System.Windows.Forms.ComboBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -74,6 +76,15 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "tabPage1";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(167, 418);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(316, 13);
+            this.label1.TabIndex = 7;
+            this.label1.Text = "includes booking and reservations, inventory, energy managment ";
             // 
             // loginButton
             // 
@@ -131,6 +142,8 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.searchRoomsComboBox);
+            this.tabPage2.Controls.Add(this.bookRoomButton);
             this.tabPage2.Controls.Add(this.deleteRoomButton);
             this.tabPage2.Controls.Add(this.addRoomButton);
             this.tabPage2.Controls.Add(this.roomsLabel);
@@ -145,16 +158,16 @@
             // 
             // deleteRoomButton
             // 
-            this.deleteRoomButton.Location = new System.Drawing.Point(187, 22);
+            this.deleteRoomButton.Location = new System.Drawing.Point(110, 9);
             this.deleteRoomButton.Name = "deleteRoomButton";
-            this.deleteRoomButton.Size = new System.Drawing.Size(108, 23);
+            this.deleteRoomButton.Size = new System.Drawing.Size(65, 23);
             this.deleteRoomButton.TabIndex = 3;
-            this.deleteRoomButton.Text = "Delete Room";
+            this.deleteRoomButton.Text = "Checkout";
             this.deleteRoomButton.UseVisualStyleBackColor = true;
             // 
             // addRoomButton
             // 
-            this.addRoomButton.Location = new System.Drawing.Point(65, 22);
+            this.addRoomButton.Location = new System.Drawing.Point(500, 46);
             this.addRoomButton.Name = "addRoomButton";
             this.addRoomButton.Size = new System.Drawing.Size(106, 23);
             this.addRoomButton.TabIndex = 2;
@@ -164,7 +177,7 @@
             // roomsLabel
             // 
             this.roomsLabel.AutoSize = true;
-            this.roomsLabel.Location = new System.Drawing.Point(6, 32);
+            this.roomsLabel.Location = new System.Drawing.Point(6, 14);
             this.roomsLabel.Name = "roomsLabel";
             this.roomsLabel.Size = new System.Drawing.Size(40, 13);
             this.roomsLabel.TabIndex = 1;
@@ -179,14 +192,28 @@
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
-            // label1
+            // bookRoomButton
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(167, 418);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(316, 13);
-            this.label1.TabIndex = 7;
-            this.label1.Text = "includes booking and reservations, inventory, energy managment ";
+            this.bookRoomButton.Location = new System.Drawing.Point(52, 9);
+            this.bookRoomButton.Name = "bookRoomButton";
+            this.bookRoomButton.Size = new System.Drawing.Size(52, 23);
+            this.bookRoomButton.TabIndex = 4;
+            this.bookRoomButton.Text = "Book Room";
+            this.bookRoomButton.UseVisualStyleBackColor = true;
+            // 
+            // searchRoomsComboBox
+            // 
+            this.searchRoomsComboBox.FormattingEnabled = true;
+            this.searchRoomsComboBox.Items.AddRange(new object[] {
+            "All Rooms",
+            "Empty Rooms",
+            "Booked",
+            "History"});
+            this.searchRoomsComboBox.Location = new System.Drawing.Point(9, 38);
+            this.searchRoomsComboBox.Name = "searchRoomsComboBox";
+            this.searchRoomsComboBox.Size = new System.Drawing.Size(166, 21);
+            this.searchRoomsComboBox.TabIndex = 5;
+            this.searchRoomsComboBox.SelectedIndexChanged += new System.EventHandler(this.searchRoomsComboBox_SelectedIndexChanged);
             // 
             // Form1
             // 
@@ -221,6 +248,8 @@
         private System.Windows.Forms.Button addRoomButton;
         private System.Windows.Forms.Label roomsLabel;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ComboBox searchRoomsComboBox;
+        private System.Windows.Forms.Button bookRoomButton;
     }
 }
 
