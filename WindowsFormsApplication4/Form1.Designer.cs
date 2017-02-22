@@ -200,6 +200,7 @@
             this.bookRoomButton.TabIndex = 4;
             this.bookRoomButton.Text = "Book Room";
             this.bookRoomButton.UseVisualStyleBackColor = true;
+            this.bookRoomButton.Click += new System.EventHandler(this.bookRoomButton_Click);
             // 
             // searchRoomsComboBox
             // 

@@ -20,8 +20,8 @@ namespace WindowsFormsApplication4
         SqlCommandBuilder commandBuilder;
         SqlDataAdapter adapter;
         DataSet ds;
-        String selectedPatient, selectedCase, selectedStaff, selectedWard;
-
+        String selectedRoom;
+        String hidEmployee = "1";
 
 
 
@@ -33,7 +33,7 @@ namespace WindowsFormsApplication4
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-
+            selectedRoom = dataGridView1.Rows[e.RowIndex].Cells["id"].Value.ToString();
         }
 
         private void searchRoomsComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -47,7 +47,7 @@ namespace WindowsFormsApplication4
                 /*EXCEPT
 SELECT ProductID
 FROM Production.WorkOrder;*/
-                String str = "Select * from Rooms as R where hid = 1";
+                String str = "Select * from Rooms as R where hid = '" + hidEmployee + "'";
                 SqlCommand sc = new SqlCommand(str, dataA);
                 //sc.Parameters.Add("@search", SqlDbType.NVarChar).Value = searchPatient.Text;
                 //String str = "Select * from patientPhone where  (Name like '%' + @search + '%')";
@@ -65,7 +65,7 @@ FROM Production.WorkOrder;*/
                 DateTime dtNow = DateTime.Now;
                 String timestring = dtNow.Date.ToString();
                 timestring = timestring.Split(' ')[0];
-                String str = "Select * from Rooms as R where R.hid = 1 Except Select RR.id, RR.hid, RR.lid, RR.price, RR.roomNumber, RR.description, RR.capacity  from Rooms as RR, Clients as CC where RR.hid = 1 and CC.id = RR.id and CC.endDate > '" + timestring + "'";
+                String str = "Select * from Rooms as R where R.hid = '" + hidEmployee + "' Except Select RR.id, RR.hid, RR.lid, RR.price, RR.roomNumber, RR.description, RR.capacity  from Rooms as RR, Clients as CC where RR.hid = '" + hidEmployee + "' and CC.id = RR.id and CC.endDate > '" + timestring + "'";
                 SqlCommand sc = new SqlCommand(str, dataA);
                 //sc.Parameters.Add("@search", SqlDbType.NVarChar).Value = searchPatient.Text;
                 //String str = "Select * from patientPhone where  (Name like '%' + @search + '%')";
@@ -83,7 +83,7 @@ FROM Production.WorkOrder;*/
                 DateTime dtNow = DateTime.Now;
                 String timestring = dtNow.Date.ToString();
                 timestring = timestring.Split(' ')[0];
-                   String str = "Select name, phoneNumber, price, roomNumber, capacity from Rooms as R, Clients as C where R.hid = 1 and C.id = R.id and C.endDate > '" + timestring + "'";
+                   String str = "Select name, phoneNumber, price, roomNumber, capacity from Rooms as R, Clients as C where R.hid = '" + hidEmployee + "' and C.id = R.id and C.endDate > '" + timestring + "'";
                    SqlCommand sc = new SqlCommand(str, dataA);
                    //sc.Parameters.Add("@search", SqlDbType.NVarChar).Value = searchPatient.Text;
                    //String str = "Select * from patientPhone where  (Name like '%' + @search + '%')";
@@ -104,7 +104,7 @@ FROM Production.WorkOrder;*/
                 DateTime dtNow = DateTime.Now;
                 String timestring = dtNow.Date.ToString();
                 timestring = timestring.Split(' ')[0];
-                String str = "Select name, phoneNumber, price, roomNumber, capacity from Rooms as R, Clients as C where R.hid = 1 and C.id = R.id and C.endDate <= '" + timestring + "'";
+                String str = "Select name, phoneNumber, price, roomNumber, capacity from Rooms as R, Clients as C where R.hid = '" + hidEmployee + "' and C.id = R.id and C.endDate <= '" + timestring + "'";
                 SqlCommand sc = new SqlCommand(str, dataA);
                 //sc.Parameters.Add("@search", SqlDbType.NVarChar).Value = searchPatient.Text;
                 //String str = "Select * from patientPhone where  (Name like '%' + @search + '%')";
@@ -116,6 +116,18 @@ FROM Production.WorkOrder;*/
                 adapter.Fill(ds);
                 dataGridView1.DataSource = ds.Tables[0];
                 dataA.Close();
+            }
+        }
+
+        private void bookRoomButton_Click(object sender, EventArgs e)
+        {
+            if((string)searchRoomsComboBox.SelectedItem == "Empty Rooms")
+            {
+                Form3 formBooking = new Form3();
+                formBooking.Show();
+                formBooking.selectedRoom = selectedRoom;
+                formBooking.hidEmployee = hidEmployee;
+                
             }
         }
 
@@ -133,7 +145,7 @@ FROM Production.WorkOrder;*/
             SqlDataReader dr = cmd.ExecuteReader();
             // var columns = new List<String>();
             // var reader = cmd.ExecuteReader();
-            String hidEmployee = "1"; // just initalizing it;
+            //hidEmployee = "1"; 
             while (dr.Read())
             {
 
@@ -154,7 +166,7 @@ FROM Production.WorkOrder;*/
                 usernameTextbox.Text = "";
 
 
-                String str = "Select name, phoneNumber, price, roomNumber, capacity from Rooms as R, Clients as C where R.hid = 1 and C.id = R.id";
+                String str = "Select name, phoneNumber, price, roomNumber, capacity from Rooms as R, Clients as C where R.hid = '" + hidEmployee + "' and C.id = R.id";
                 SqlCommand sc = new SqlCommand(str, dataA);
                 //sc.Parameters.Add("@search", SqlDbType.NVarChar).Value = searchPatient.Text;
                 //String str = "Select * from patientPhone where  (Name like '%' + @search + '%')";

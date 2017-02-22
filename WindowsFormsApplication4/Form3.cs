@@ -12,6 +12,9 @@ namespace WindowsFormsApplication4
 {
     public partial class Form3 : Form
     {
+        public String hidEmployee = "1";
+        public string selectedRoom;
+
         public Form3()
         {
             InitializeComponent();
