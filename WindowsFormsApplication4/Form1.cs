@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Data;
+using System.Xml;
 using System.Data.SqlClient;
 
 namespace WindowsFormsApplication4
@@ -287,9 +287,24 @@ FROM Production.WorkOrder;*/
                 //String str = dr.GetValue(6);
 
             }
+            
             dr.Close();
+            sql = sql.Replace("sum(rentalDays)", "*");
+            MessageBox.Show(sql);
+            adapter = new SqlDataAdapter(sql, dataA);
+            SqlCommand sc = new SqlCommand(sql, dataA);
+            //sc.Parameters.Add("@search", SqlDbType.NVarChar).Value = searchPatient.Text;
+            //String str = "Select * from patientPhone where  (Name like '%' + @search + '%')";
+
+            //sc.ExecuteNonQuery();
+            adapter = new SqlDataAdapter(sql, dataA);
+            adapter.SelectCommand = sc;
+            ds = new System.Data.DataSet();
+            adapter.Fill(ds);
+            ds.WriteXml("c:/temp/employees.xml");
+
             dataA.Close();
-            roomData.Text += " " + priv;
+            roomData.Text = "Total Number of Rooms: " + priv;
         }
     }
 }
