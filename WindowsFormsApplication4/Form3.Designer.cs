@@ -40,6 +40,7 @@
             this.label6 = new System.Windows.Forms.Label();
             this.dateStart = new System.Windows.Forms.DateTimePicker();
             this.dateEnd = new System.Windows.Forms.DateTimePicker();
+            this.totalLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label5
@@ -115,7 +116,7 @@
             // 
             // bookQuestButton
             // 
-            this.bookQuestButton.Location = new System.Drawing.Point(138, 356);
+            this.bookQuestButton.Location = new System.Drawing.Point(138, 377);
             this.bookQuestButton.Name = "bookQuestButton";
             this.bookQuestButton.Size = new System.Drawing.Size(124, 46);
             this.bookQuestButton.TabIndex = 18;
@@ -139,6 +140,7 @@
             this.dateStart.Name = "dateStart";
             this.dateStart.Size = new System.Drawing.Size(200, 20);
             this.dateStart.TabIndex = 20;
+            this.dateStart.ValueChanged += new System.EventHandler(this.dateStart_ValueChanged);
             // 
             // dateEnd
             // 
@@ -146,12 +148,26 @@
             this.dateEnd.Name = "dateEnd";
             this.dateEnd.Size = new System.Drawing.Size(200, 20);
             this.dateEnd.TabIndex = 21;
+            this.dateEnd.ValueChanged += new System.EventHandler(this.dateEnd_ValueChanged);
+            // 
+            // totalLabel
+            // 
+            this.totalLabel.AutoSize = true;
+            this.totalLabel.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.totalLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.totalLabel.Location = new System.Drawing.Point(138, 337);
+            this.totalLabel.Name = "totalLabel";
+            this.totalLabel.Size = new System.Drawing.Size(94, 20);
+            this.totalLabel.TabIndex = 22;
+            this.totalLabel.Text = "Total: 0.00";
+            this.totalLabel.Click += new System.EventHandler(this.totalLabel_Click);
             // 
             // Form3
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(556, 501);
+            this.Controls.Add(this.totalLabel);
             this.Controls.Add(this.dateEnd);
             this.Controls.Add(this.dateStart);
             this.Controls.Add(this.label6);
@@ -185,5 +201,6 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.DateTimePicker dateStart;
         private System.Windows.Forms.DateTimePicker dateEnd;
+        private System.Windows.Forms.Label totalLabel;
     }
 }

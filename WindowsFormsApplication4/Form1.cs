@@ -23,7 +23,178 @@ namespace WindowsFormsApplication4
         DataSet ds;
         int selectedRoom;
         String hidEmployee = "1";
+        
 
+        private void Form1_Load(object sender, System.EventArgs e)
+        {
+            dataA.Open();
+            string sql = "select * from distinctYearDate";
+            SqlCommand cmd = new SqlCommand(sql, dataA);
+            SqlDataReader dr = cmd.ExecuteReader();
+            List<string> priv = new List<string>();
+            // var columns = new List<String>();
+            // var reader = cmd.ExecuteReader();
+            //hidEmployee = "1"; 
+            while (dr.Read())
+            {
+
+                priv.Add(dr[0].ToString().TrimEnd());
+
+                //String str = dr.GetValue(6);
+
+            }
+            foreach (string str in priv)
+                dateYearText.Items.Add(str);
+
+            dr.Close();
+            dataA.Close();
+
+            dataA.Open();
+            sql = "select * from distinctCountryHotel";
+            cmd = new SqlCommand(sql, dataA);
+            dr = cmd.ExecuteReader();
+            priv = new List<string>();
+            // var columns = new List<String>();
+            // var reader = cmd.ExecuteReader();
+            //hidEmployee = "1"; 
+            while (dr.Read())
+            {
+
+                priv.Add(dr[0].ToString().TrimEnd());
+
+                //String str = dr.GetValue(6);
+
+            }
+            foreach (string str in priv)
+            {
+                hotelCountryText.Items.Add(str);
+            }
+
+            dr.Close();
+            dataA.Close();
+
+            dataA.Open();
+            sql = "exec getClientDWCountry";
+            cmd = new SqlCommand(sql, dataA);
+            dr = cmd.ExecuteReader();
+            priv = new List<string>();
+            // var columns = new List<String>();
+            // var reader = cmd.ExecuteReader();
+            //hidEmployee = "1"; 
+            while (dr.Read())
+            {
+
+                priv.Add(dr[0].ToString().TrimEnd());
+
+                //String str = dr.GetValue(6);
+
+            }
+            foreach (string str in priv)
+            {
+                clientCountryText.Items.Add(str);
+            }
+
+            dr.Close();
+            dataA.Close();
+
+
+            dataA.Close();
+
+            dataA.Open();
+            sql = "select * from distinctProvinceHotel";
+            cmd = new SqlCommand(sql, dataA);
+            dr = cmd.ExecuteReader();
+            priv = new List<string>();
+            // var columns = new List<String>();
+            // var reader = cmd.ExecuteReader();
+            //hidEmployee = "1"; 
+            while (dr.Read())
+            {
+
+                priv.Add(dr[0].ToString().TrimEnd());
+
+                //String str = dr.GetValue(6);
+
+            }
+            foreach (string str in priv)
+            {
+                hotelProvinceText.Items.Add(str);
+            }
+
+            dr.Close();
+            dataA.Close();
+
+            dataA.Open();
+            sql = "select * from distinctProvinceClient";
+            cmd = new SqlCommand(sql, dataA);
+            dr = cmd.ExecuteReader();
+            priv = new List<string>();
+            // var columns = new List<String>();
+            // var reader = cmd.ExecuteReader();
+            //hidEmployee = "1"; 
+            while (dr.Read())
+            {
+
+                priv.Add(dr[0].ToString().TrimEnd());
+
+                //String str = dr.GetValue(6);
+
+            }
+            foreach (string str in priv)
+            {
+                clientProvinceText.Items.Add(str);
+            }
+
+            dr.Close();
+            dataA.Close();
+            dataA.Open();
+            sql = "select * from distinctCityHotel";
+            cmd = new SqlCommand(sql, dataA);
+            dr = cmd.ExecuteReader();
+            priv = new List<string>();
+            // var columns = new List<String>();
+            // var reader = cmd.ExecuteReader();
+            //hidEmployee = "1"; 
+            while (dr.Read())
+            {
+
+                priv.Add(dr[0].ToString().TrimEnd());
+
+                //String str = dr.GetValue(6);
+
+            }
+            foreach (string str in priv)
+            {
+                hotelCityText.Items.Add(str);
+            }
+
+            dr.Close();
+            dataA.Close();
+
+            dataA.Open();
+            sql = "select * from distinctCityClient";
+            cmd = new SqlCommand(sql, dataA);
+            dr = cmd.ExecuteReader();
+            priv = new List<string>();
+            // var columns = new List<String>();
+            // var reader = cmd.ExecuteReader();
+            //hidEmployee = "1"; 
+            while (dr.Read())
+            {
+
+                priv.Add(dr[0].ToString().TrimEnd());
+
+                //String str = dr.GetValue(6);
+
+            }
+            foreach (string str in priv)
+            {
+                clientCityText.Items.Add(str);
+            }
+
+            dr.Close();
+            dataA.Close();
+        }
 
 
 
@@ -34,8 +205,16 @@ namespace WindowsFormsApplication4
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            selectedRoom = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells["id"].Value.ToString());
-            MessageBox.Show(selectedRoom.ToString());
+            if ((string)searchRoomsComboBox.SelectedItem == "Empty Rooms")
+            {//Booked
+                selectedRoom = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells["id"].Value.ToString());
+                MessageBox.Show("You selected Room with ID: " + selectedRoom.ToString());
+            }
+            else if ((string)searchRoomsComboBox.SelectedItem == "Booked")
+            {//Booked
+                selectedRoom = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells["id"].Value.ToString());
+                MessageBox.Show("You selected Room with ID: " + selectedRoom.ToString());
+            }
         }
     
         private void searchRoomsComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -85,7 +264,7 @@ FROM Production.WorkOrder;*/
                 DateTime dtNow = DateTime.Now;
                 String timestring = dtNow.Date.ToString();
                 timestring = timestring.Split(' ')[0];
-                   String str = "Select name, phoneNumber, price, roomNumber, capacity from Rooms as R, Clients as C where R.hid = '" + hidEmployee + "' and C.rid = R.id and C.endDate > '" + timestring + "'";
+                   String str = "Select C.id, name, phoneNumber, price, roomNumber, capacity from Rooms as R, Clients as C where R.hid = '" + hidEmployee + "' and C.rid = R.id and C.endDate > '" + timestring + "'";
                    SqlCommand sc = new SqlCommand(str, dataA);
                    //sc.Parameters.Add("@search", SqlDbType.NVarChar).Value = searchPatient.Text;
                    //String str = "Select * from patientPhone where  (Name like '%' + @search + '%')";
@@ -106,7 +285,7 @@ FROM Production.WorkOrder;*/
                 DateTime dtNow = DateTime.Now;
                 String timestring = dtNow.Date.ToString();
                 timestring = timestring.Split(' ')[0];
-                String str = "Select name, phoneNumber, price, roomNumber, capacity from Rooms as R, Clients as C where R.hid = '" + hidEmployee + "' and C.id = R.id and C.endDate <= '" + timestring + "'";
+                String str = "Select C.id, name, phoneNumber, price, roomNumber, capacity, startDate, endDate from Rooms as R, Clients as C where R.hid = '" + hidEmployee + "' and C.rid = R.id and C.endDate <= '" + timestring + "'";
                 SqlCommand sc = new SqlCommand(str, dataA);
                 //sc.Parameters.Add("@search", SqlDbType.NVarChar).Value = searchPatient.Text;
                 //String str = "Select * from patientPhone where  (Name like '%' + @search + '%')";
@@ -153,6 +332,7 @@ FROM Production.WorkOrder;*/
 
                 priv = dr[2].ToString().Replace(" ", String.Empty);// privledge
                 hidEmployee = dr[1].ToString().Replace(" ", String.Empty);
+               
                 login = true;
 
                 //String str = dr.GetValue(6);
@@ -167,11 +347,11 @@ FROM Production.WorkOrder;*/
                 passwordTextbox.Text = "";
                 usernameTextbox.Text = "";
 
+                String str = "Select * from Rooms as R where hid = '" + hidEmployee + "'";
 
-                String str = "Select name, phoneNumber, price, roomNumber, capacity from Rooms as R, Clients as C where R.hid = '" + hidEmployee + "' and C.id = R.id";
                 SqlCommand sc = new SqlCommand(str, dataA);
                 //sc.Parameters.Add("@search", SqlDbType.NVarChar).Value = searchPatient.Text;
-                //String str = "Select * from patientPhone where  (Name like '%' + @search + '%')";
+                //String stFr = "Select * from patientPhone where  (Name like '%' + @search + '%')";
                 dataA.Open();
                 //sc.ExecuteNonQuery();
                 adapter = new SqlDataAdapter(str, dataA);
@@ -181,8 +361,21 @@ FROM Production.WorkOrder;*/
                 dataGridView1.DataSource = ds.Tables[0];
                 dataA.Close();
 
+                dataA.Open();
+               
+                sql = "select * from Hotels where id = '" +hidEmployee+ "'";
+                cmd = new SqlCommand(sql, dataA);
+                dr = cmd.ExecuteReader(); 
+                while (dr.Read())
+                {
+                    hotelNameLabel.Text = dr[1].ToString().Replace(" ", String.Empty);
+                }
+                dr.Close();
+                dataA.Close();
+
             }
             else MessageBox.Show("Wrong username or password");
+
 
         }
 
@@ -257,9 +450,13 @@ FROM Production.WorkOrder;*/
             }
             if (hotel)
             {
-                if (date || client) sql += "and ";
+                if (date || client)
+                {
+                    sql += "and ";
+                    
+                }
                 sql += "h.hotelid = r.hotelid and ";
-                if (hotelCountryText.Text != "") sql += "hotel.country = '" + hotelCountryText.Text + "' ";
+                if (hotelCountryText.Text != "") sql += "h.country = '" + hotelCountryText.Text + "' ";
                 if (hotelProvinceText.Text != "")
                 {
                     if (hotelCountryText.Text != "") sql += "and ";
@@ -272,7 +469,7 @@ FROM Production.WorkOrder;*/
 
                 }
             }
-
+            MessageBox.Show(sql);
             SqlCommand cmd = new SqlCommand(sql, dataA);
             SqlDataReader dr = cmd.ExecuteReader();
             string priv = "";
@@ -290,7 +487,7 @@ FROM Production.WorkOrder;*/
             
             dr.Close();
             sql = sql.Replace("sum(rentalDays)", "*");
-            MessageBox.Show(sql);
+            
             adapter = new SqlDataAdapter(sql, dataA);
             SqlCommand sc = new SqlCommand(sql, dataA);
             //sc.Parameters.Add("@search", SqlDbType.NVarChar).Value = searchPatient.Text;
@@ -301,10 +498,91 @@ FROM Production.WorkOrder;*/
             adapter.SelectCommand = sc;
             ds = new System.Data.DataSet();
             adapter.Fill(ds);
-            ds.WriteXml("c:/temp/employees.xml");
+            ds.WriteXml("c:/Users/Anthony Summers/Desktop/XMLFILE.xml");
 
             dataA.Close();
             roomData.Text = "Total Number of Rooms: " + priv;
+        }
+
+        private void dateMonthText_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(dateMonthText.Text == "January" || dateMonthText.Text == "Febuary" || dateMonthText.Text == "March")
+                    dateQuarterText.Text = "1";
+            else if (dateMonthText.Text == "April" || dateMonthText.Text == "May" || dateMonthText.Text == "June")
+                    dateQuarterText.Text = "2"; 
+            else if (dateMonthText.Text == "July" || dateMonthText.Text == "August" || dateMonthText.Text == "September")
+                    dateQuarterText.Text = "3"; 
+            else
+                dateQuarterText.Text = "4";
+        }
+
+        private void dateQuarterText_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            dateMonthText.Text = "";
+        }
+
+        private void dateYearText_SelectedIndexChanged(object sender, EventArgs e)
+        {
+        }
+
+        private void tabPage3_Click(object sender, EventArgs e)
+        {
+    
+        }
+
+        private void clientProvinceText_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void removeButton_Click(object sender, EventArgs e)
+        {
+            if ((string)searchRoomsComboBox.SelectedItem == "Booked")
+            {
+                //selectedRoom = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells["id"].Value.ToString());
+                //MessageBox.Show(selectedRoom.ToString());
+
+                System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand();
+                String str = dataGridView1.SelectedCells[0].Value.ToString();
+                cmd.CommandType = System.Data.CommandType.Text;
+                cmd.CommandText = "DELETE Clients where id = '" + selectedRoom + "'";
+                cmd.Connection = dataA;
+
+                dataA.Open();
+                cmd.ExecuteNonQuery();
+                dataA.Close();
+
+
+
+                DateTime dtNow = DateTime.Now;
+                String timestring = dtNow.Date.ToString();
+                timestring = timestring.Split(' ')[0];
+                str = "Select C.id, name, phoneNumber, price, roomNumber, capacity from Rooms as R, Clients as C where R.hid = '" + hidEmployee + "' and C.rid = R.id and C.endDate > '" + timestring + "'";
+                SqlCommand sc = new SqlCommand(str, dataA);
+                //sc.Parameters.Add("@search", SqlDbType.NVarChar).Value = searchPatient.Text;
+                //String str = "Select * from patientPhone where  (Name like '%' + @search + '%')";
+                dataA.Open();
+                //sc.ExecuteNonQuery();
+                adapter = new SqlDataAdapter(str, dataA);
+                adapter.SelectCommand = sc;
+                ds = new System.Data.DataSet();
+                adapter.Fill(ds);
+                dataGridView1.DataSource = ds.Tables[0];
+                dataA.Close();
+            }
+           
+        }
+
+        private void logoutButton_Click(object sender, EventArgs e)
+        {
+            hidEmployee = null;
+            tabControl1.SelectedTab = tabPage1;
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            hidEmployee = null;
+            tabControl1.SelectedTab = tabPage1;
         }
     }
 }

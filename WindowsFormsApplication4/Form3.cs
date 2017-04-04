@@ -33,6 +33,11 @@ namespace WindowsFormsApplication4
 
         private void bookQuestButton_Click(object sender, EventArgs e)
         {
+            if (Convert.ToDouble(totalLabel.Text.Split()[1]) == 0)
+            {
+                MessageBox.Show("You Haven't Booked a proper time");
+                return;
+            }
             String dateStartString = dateStart.Value.ToString().Split(' ')[0];
             String dateEndString = dateEnd.Value.ToString().Split(' ')[0];
             dataA.Open();
@@ -54,6 +59,7 @@ namespace WindowsFormsApplication4
             catch (Exception) { MessageBox.Show(selectedRoom.ToString()); }
             dataA.Close();
             this.Hide();
+
         }
         private void ExecuteSqlTransaction(string connectionString, int count, string dateStartString, string dateEndString)
         {
@@ -106,6 +112,73 @@ namespace WindowsFormsApplication4
                     }
                 }
             }
+        }
+
+        private void dateEnd_ValueChanged(object sender, EventArgs e)
+        {
+            String[] start = dateStart.Value.ToString().Split(' ')[0].Split('-');
+            String[] end = dateEnd.Value.ToString().Split(' ')[0].Split('-');
+            double value = 1;
+            int month = 31;
+            if (Convert.ToDouble(start[1]) == 2) month = 28;
+            if (Convert.ToDouble(start[1]) == 4) month = 30;
+            if (Convert.ToDouble(start[1]) == 6) month = 30;
+            if (Convert.ToDouble(start[1]) == 11) month = 30;
+
+            value = Convert.ToDouble(end[2]) - Convert.ToDouble(start[2]);
+            value += (Convert.ToDouble(end[1]) - Convert.ToDouble(start[1])) * month;
+            //value += (Convert.ToDouble(end[1]) - Convert.ToDouble(start[1])) * 365;
+            dataA.Open();
+
+            string sql = "select * from Rooms where id = '" + selectedRoom + "'";
+            SqlCommand cmd = new SqlCommand(sql, dataA);
+            SqlDataReader dr = cmd.ExecuteReader();
+            while (dr.Read())
+            {
+                totalLabel.Text = "Total: " + string.Format("{0:0.00}",((Convert.ToDouble(dr[3].ToString().Replace(" ", String.Empty))*value)));
+                if (Convert.ToDouble(totalLabel.Text.Split()[1]) < 0)
+                {
+                    totalLabel.Text = "Total: 0.00";
+                }
+            }
+            dr.Close();
+            dataA.Close();
+        }
+
+        private void dateStart_ValueChanged(object sender, EventArgs e)
+        {
+            String[] start = dateStart.Value.ToString().Split(' ')[0].Split('-');
+            String[] end = dateEnd.Value.ToString().Split(' ')[0].Split('-');
+            double value = 1;
+            int month = 31;
+            if (Convert.ToDouble(start[1]) == 2) month = 28;
+            if (Convert.ToDouble(start[1]) == 4) month = 30;
+            if (Convert.ToDouble(start[1]) == 6) month = 30;
+            if (Convert.ToDouble(start[1]) == 11) month = 30;
+
+            value = Convert.ToDouble(end[2]) - Convert.ToDouble(start[2]);
+            value += (Convert.ToDouble(end[1]) - Convert.ToDouble(start[1])) * month;
+            value += (Convert.ToDouble(end[0]) - Convert.ToDouble(start[0])) * 365;
+            dataA.Open();
+
+            string sql = "select * from Rooms where id = '" + selectedRoom + "'";
+            SqlCommand cmd = new SqlCommand(sql, dataA);
+            SqlDataReader dr = cmd.ExecuteReader();
+            while (dr.Read())
+            {
+                totalLabel.Text = "Total: " + string.Format("{0:0.00}", ((Convert.ToDouble(dr[3].ToString().Replace(" ", String.Empty)) * value)));
+                if (Convert.ToDouble(totalLabel.Text.Split()[1]) < 0)
+                {
+                    totalLabel.Text = "Total: 0.00";
+                }
+            }
+            dr.Close();
+            dataA.Close();
+        }
+
+        private void totalLabel_Click(object sender, EventArgs e)
+        {
+
         }
     }
     }
