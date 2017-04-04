@@ -22,15 +22,11 @@ few columns. In the example of USA and canada it would only have to go through a
 to stored procedures. 
 
 Business Rules:
+
 •	Each employee can only see hotel associated with their hotel
-
 •	Each employee can only book clients at their hotel
-
 •	Hotels information is not required to book rooms, are assuming client already knows the hotel before he books. We assume this as this is an employee application, if the client has made contact with the employee we can assume the employee can handle client inquiries such as confirming location. 
-
 •	A client booking automatically ends when the day of his booking ends.
-
 •	A client can have multiple rooms booked
-
 •	A room can only be booked by one person and must not be in use
 
